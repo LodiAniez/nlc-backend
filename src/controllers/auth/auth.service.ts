@@ -4,12 +4,14 @@ import { sign } from "jsonwebtoken";
 import {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
+  DEFAULT_USER_EMAIL,
+  DEFAULT_USER_PASSWORD,
 } from "@secrets/index";
 
 export const useAuthService = () => {
   const defaultCredentials = {
-    email: "test@gmail.com",
-    password: "test123",
+    email: DEFAULT_USER_EMAIL,
+    password: DEFAULT_USER_PASSWORD,
   } as const;
 
   /**
