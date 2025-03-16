@@ -3,6 +3,8 @@ import { Login } from "./auth.types";
 import { useAuthService } from "./auth.service";
 import { CustomRequest } from "@globals/types";
 import { handleError } from "@globals/utils";
+import { NODE_ENV } from "@secrets/index";
+import { Environment } from "@constants/environment";
 
 const app = Router();
 
@@ -15,16 +17,16 @@ app.post("/login", (req: CustomRequest<Login>, res) => {
     const { accessToken, refreshToken } = login({ email, password });
 
     res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      httpOnly: NODE_ENV === Environment.Development,
+      secure: NODE_ENV === Environment.Production,
+      sameSite: "none",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
     res.json({ accessToken });
   } catch (error) {
     const message = handleError(error);
-    res.status(401).send(message);
+    res.status(401).json({ message });
   }
 });
 
