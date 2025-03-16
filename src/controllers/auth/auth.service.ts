@@ -9,9 +9,8 @@ import {
 } from "@secrets/index";
 
 export const useAuthService = () => {
-  const defaultCredentials = {
+  const user = {
     email: DEFAULT_USER_EMAIL,
-    password: DEFAULT_USER_PASSWORD,
   } as const;
 
   /**
@@ -21,18 +20,15 @@ export const useAuthService = () => {
    * @returns access and refresh token to be used for authentication in every request
    */
   const login = ({ email, password }: Login) => {
-    if (
-      email !== defaultCredentials.email ||
-      password !== defaultCredentials.password
-    ) {
+    if (email !== DEFAULT_USER_EMAIL || password !== DEFAULT_USER_PASSWORD) {
       throw new Error("Invalid credentials");
     }
 
-    const accessToken = sign(defaultCredentials, ACCESS_TOKEN_SECRET_KEY, {
+    const accessToken = sign(user, ACCESS_TOKEN_SECRET_KEY, {
       expiresIn: "15m",
     });
 
-    const refreshToken = sign(defaultCredentials, REFRESH_TOKEN_SECRET_KEY, {
+    const refreshToken = sign(user, REFRESH_TOKEN_SECRET_KEY, {
       expiresIn: "1d",
     });
 
