@@ -8,6 +8,6 @@ import ServiceOrderController from "@controllers/service-order/service-order.con
 export const router = (app: Express) => {
   app.use("/auth", AuthController);
 
-  app.use("/project", authMiddleware, ProjectController);
+  app.use("/projects", authMiddleware, ProjectController);
   app.use("/service-order", authMiddleware, ServiceOrderController);
 };
