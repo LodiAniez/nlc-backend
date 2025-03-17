@@ -26,8 +26,8 @@ model ServiceOrder {
   category     String
   description  String?
   project_id   Int
-  created_date DateTime
-  updated_date DateTime
+  created_date DateTime  @default(now())
+  updated_date DateTime  @default(now())
   is_approved  Boolean   @default(false)
   
   project      Project   @relation(fields: [project_id], references: [id])
