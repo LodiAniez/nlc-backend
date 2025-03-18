@@ -9,6 +9,5 @@
 
 - Make sure docker is installed on your machine.
 - cd to the root directory where `.Dockerfile` is located.
-- run `docker build -t service-order .` to build a docker image.
-- run `docker run -d -p 127.0.0.1:3000:3000 service-order` to start the container.
+- run `docker compose up` to build and run the app.
 - verify if the container is running by executing `docker ps` command.
