@@ -14,6 +14,8 @@ export interface ListServiceOrder
   extends Pick<
     ServiceOrderPrisma,
     "category" | "description" | "id" | "is_approved" | "name" | "project_id"
-  > {}
+  > {
+  project_name: string;
+}
 
 export interface DeleteServiceOrder extends Pick<ServiceOrderPrisma, "id"> {}

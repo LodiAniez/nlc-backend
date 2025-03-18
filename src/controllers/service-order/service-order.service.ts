@@ -76,11 +76,26 @@ export const useServiceOrderService = () => {
           is_approved: true,
           name: true,
           project_id: true,
+          project: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
       await prisma.$disconnect();
-      return items;
+      return items.map((item) => {
+        const {
+          project: { name },
+          ...rest
+        } = item;
+
+        return {
+          project_name: name,
+          ...rest,
+        };
+      });
     } catch (e) {
       await prisma.$disconnect();
       throw new Error(e as string);
