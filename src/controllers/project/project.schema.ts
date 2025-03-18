@@ -1,16 +1,6 @@
 import Joi from "joi";
 import { Project } from "@controllers/project/project.types";
-
-const idValidation: Joi.SchemaLike = Joi.number()
-  .integer()
-  .positive()
-  .required()
-  .messages({
-    "number.base": "ID must be a number.",
-    "number.integer": "ID must be an integer.",
-    "number.positive": "ID must be a positive number.",
-    "any.required": "ID is required.",
-  });
+import { idValidation } from "@globals/validations";
 
 const createProjectSchema = Joi.object<Project>({
   name: Joi.string().required(),

@@ -9,5 +9,5 @@ export const router = (app: Express) => {
   app.use("/auth", AuthController);
 
   app.use("/projects", authMiddleware, ProjectController);
-  app.use("/service-order", authMiddleware, ServiceOrderController);
+  app.use("/service-orders", authMiddleware, ServiceOrderController);
 };
