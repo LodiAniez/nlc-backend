@@ -1,3 +1,9 @@
+-- CreateDatabase
+CREATE DATABASE IF NOT EXISTS `serviceorder`;
+
+-- UseDatabase
+USE `serviceorder`;
+
 -- CreateTable
 CREATE TABLE `Project` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
