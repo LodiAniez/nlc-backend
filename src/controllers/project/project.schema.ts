@@ -4,12 +4,12 @@ import { idValidation } from "@globals/validations";
 
 const createProjectSchema = Joi.object<Project>({
   name: Joi.string().required(),
-  description: Joi.string().optional(),
+  description: Joi.string().optional().allow(null, ""),
 });
 
 const editProjectSchema = Joi.object<Project>({
   name: Joi.string().optional(),
-  description: Joi.string().optional(),
+  description: Joi.string().optional().allow(null, ""),
   id: idValidation,
 }).unknown(true);
 

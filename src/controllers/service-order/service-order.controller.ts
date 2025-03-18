@@ -67,6 +67,7 @@ app.patch(
 
       res.json(editedItem);
     } catch (e) {
+      console.log(e);
       const err: CustomError = e as CustomError;
       const message = handleError(err);
       res.status(err.errorCode).json({ message });

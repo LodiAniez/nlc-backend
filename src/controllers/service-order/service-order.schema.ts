@@ -8,7 +8,7 @@ import { idValidation } from "@globals/validations";
 
 const createServiceOrderSchema = Joi.object<ServiceOrderData>({
   name: Joi.string().required(),
-  description: Joi.string().optional(),
+  description: Joi.string().optional().allow(null, ""),
   category: Joi.string().required(),
   project_id: Joi.number().integer().positive().required(),
 }).unknown(true);
@@ -16,7 +16,7 @@ const createServiceOrderSchema = Joi.object<ServiceOrderData>({
 const editServiceOrderSchema = Joi.object<EditServiceOrderData>({
   id: idValidation,
   name: Joi.string().optional().allow(null, ""),
-  description: Joi.string().optional(),
+  description: Joi.string().optional().allow(null, ""),
   category: Joi.string().optional().allow(null, ""),
   project_id: Joi.number().integer().positive().optional().allow(null, ""),
 }).unknown(true);

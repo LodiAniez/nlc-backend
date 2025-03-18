@@ -9,7 +9,11 @@ import {
 export const useServiceOrderService = () => {
   const create = async (
     data: ServiceOrderData
-  ): Promise<Omit<ServiceOrderPrisma, "created_date" | "updated_date">> => {
+  ): Promise<
+    Omit<ServiceOrderPrisma, "created_date" | "updated_date"> & {
+      project_name: string;
+    }
+  > => {
     try {
       const { category, description, name, project_id } = data;
       const createdData = await prisma.serviceOrder.create({
@@ -26,11 +30,21 @@ export const useServiceOrderService = () => {
           is_approved: true,
           name: true,
           project_id: true,
+          project: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
+      const { project, ...rest } = createdData;
+
       await prisma.$disconnect();
-      return createdData;
+      return {
+        project_name: project.name,
+        ...rest,
+      };
     } catch (e) {
       await prisma.$disconnect();
       throw new Error(e as string);
@@ -43,11 +57,31 @@ export const useServiceOrderService = () => {
   }: {
     id: number;
     data: Partial<ServiceOrderData>;
-  }): Promise<Omit<ServiceOrderPrisma, "created_date" | "updated_date">> => {
+  }): Promise<
+    Omit<ServiceOrderPrisma, "created_date" | "updated_date"> & {
+      project_name: string;
+    }
+  > => {
     try {
+      const {
+        category,
+        description,
+        name: serviceOrderName,
+        project_id,
+      } = data;
+
+      if (!project_id) {
+        throw new Error("project_id is required.");
+      }
+
       const updatedData = await prisma.serviceOrder.update({
         where: { id },
-        data,
+        data: {
+          category: String(category),
+          description: description ?? null,
+          name: String(serviceOrderName),
+          project_id,
+        },
         select: {
           category: true,
           description: true,
@@ -55,11 +89,24 @@ export const useServiceOrderService = () => {
           is_approved: true,
           name: true,
           project_id: true,
+          project: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
+      const {
+        project: { name },
+        ...rest
+      } = updatedData;
+
       await prisma.$disconnect();
-      return updatedData;
+      return {
+        project_name: name,
+        ...rest,
+      };
     } catch (e) {
       await prisma.$disconnect();
       throw new Error(e as string);
